@@ -16,7 +16,7 @@ from pathlib import Path
 
 
 HEADING_RE = re.compile(
-    r"^\s*(?P<label>(reviewer|referee|editor|examiner|supervisor)\s*[\w.-]*|author response)\s*:?\s*$",
+    r"^\s*(?P<label>(reviewer|referee|editor|examiner|supervisor)\s*#?[\w.-]*|author response)\s*:?\s*$",
     re.IGNORECASE,
 )
 COMMENT_RE = re.compile(

@@ -27,16 +27,16 @@ Academic AI workflows need transparency, accuracy, ethical safeguards, and human
 
 ```text
 academic-ai-skills/
-├── skills/
-│   ├── reviewer-response/
-│   │   ├── SKILL.md
-│   │   ├── templates/
-│   │   └── scripts/
-│   └── systematic-literature-review/
-├── docs/
-├── examples/
-├── tests/
-└── _reference/      # ignored; local structural references only
++-- skills/
+|   +-- reviewer-response/
+|   |   +-- SKILL.md
+|   |   +-- templates/
+|   |   +-- scripts/
+|   +-- systematic-literature-review/
++-- docs/
++-- examples/
++-- tests/
++-- _reference/      # ignored; local structural references only
 ```
 
 ## First Skill: Reviewer Response
@@ -63,6 +63,12 @@ Run the plain-text comment parser:
 python skills/reviewer-response/scripts/comment_parser.py examples/reviewer-response-demo/sample_comments.txt
 ```
 
+Output JSON for downstream processing:
+
+```bash
+python skills/reviewer-response/scripts/comment_parser.py examples/reviewer-response-demo/sample_comments.txt --json
+```
+
 Run tests:
 
 ```bash
@@ -79,6 +85,16 @@ python -m unittest discover -s tests
 - Conservative and verifiable academic claims
 
 See `docs/design_principles.md` and `docs/reference_audit.md` for project rules.
+
+## Public Release Checklist
+
+Before tagging a release:
+
+- run the parser on the example comments
+- run the test suite
+- verify that `_reference/` is ignored
+- confirm that examples contain only synthetic or public-safe content
+- update the skill status table
 
 ## License
 

@@ -1,4 +1,6 @@
 import importlib.util
+import json
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -50,6 +52,32 @@ Include a concise summary of major changes.
         self.assertEqual(len(comments), 1)
         self.assertEqual(comments[0].source, "Editor")
         self.assertIn("concise summary", comments[0].text)
+
+    def test_accepts_hash_in_reviewer_heading(self):
+        text = """Reviewer #1:
+Comment 1: Clarify the sampling frame.
+"""
+        comments = comment_parser.parse_comments(text)
+
+        self.assertEqual(comments[0].id, "Reviewer #1, Comment 1")
+        self.assertIn("sampling frame", comments[0].text)
+
+    def test_cli_outputs_json(self):
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT_PATH),
+                "--json",
+            ],
+            input="Reviewer 1:\n1. Clarify the research gap.\n",
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload[0]["id"], "Reviewer 1, Comment 1")
+        self.assertEqual(payload[0]["source"], "Reviewer 1")
 
 
 if __name__ == "__main__":
